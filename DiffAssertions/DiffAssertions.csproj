@@ -22,7 +22,7 @@ You can easily create a file that contains the expected result (your specificati
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="NuGet\diff-assertions.json">
+    <None Update="diff-assertions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
