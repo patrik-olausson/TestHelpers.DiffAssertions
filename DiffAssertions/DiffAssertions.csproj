@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Patrik Olausson</Authors>
+    <Company />
+    <Description>A simple diff comparison asserter that makes it easy to assert if two texts (strings) are equal, and display the differences in a diff tool if they are not.
+Simply put it is a much simpler (and dumber) version of ApprovalTests that should get the job done for simple scenarios.
+You can easily create a file that contains the expected result (your specification or example) and then compare the contents of the file with the actual value that is produced during the test.</Description>
+    <Copyright>Patrik Olausson, 2018</Copyright>
+    <PackageTags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NuGet\DiffAssertions.snk</AssemblyOriginatorKeyFile>
+    <Version>1.0.0-alfa</Version>
+    <AssemblyName>TestHelpers.DiffAssertions</AssemblyName>
+    <RootNamespace>TestHelpers.DiffAssertions</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NuGet\diff-assertions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

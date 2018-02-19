@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>DiffAssertions</id>
+    <version>1.0.0</version>
+    <authors>Patrik Olausson</authors>
+    <owners>Patrik Olausson</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      A simple diff comparison asserter that makes it easy to assert if two texts (strings) are equal, and display the differences in a diff tool if they are not.
+      Simply put it is a much simpler (and dumber) version of ApprovalTests that should get the job done for simple scenarios.
+      You can easily create a file that contains the expected result (your specification or example) and then compare the contents of the file with the actual value that is produced during the test.
+    </description>
+    <copyright>Patrik Olausson, 2018</copyright>
+    <tags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="2.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\netstandard2.0\DiffAssertions.dll" target="lib\netstandard2.0\DiffAssertions.dll" />
+    <file src=".\NuGet\diff-assertions.json" target="" />
+  </files>
+</package>
