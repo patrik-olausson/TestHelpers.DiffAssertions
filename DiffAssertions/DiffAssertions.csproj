@@ -9,7 +9,7 @@ Simply put it is a much simpler (and dumber) version of ApprovalTests that shoul
 You can easily create a file that contains the expected result (your specification or example) and then compare the contents of the file with the actual value that is produced during the test.</Description>
     <Copyright>Patrik Olausson, 2018</Copyright>
     <PackageTags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>NuGet\DiffAssertions.snk</AssemblyOriginatorKeyFile>
     <Version>1.0.0-alfa</Version>
