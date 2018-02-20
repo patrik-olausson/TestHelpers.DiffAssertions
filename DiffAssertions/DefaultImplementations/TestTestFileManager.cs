@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TestHelpers.DiffAssertions.DefaultImplementations
 {
-    public class TestFileManager : ITestFileManager
+    internal class TestFileManager : ITestFileManager
     {
         private readonly string _rootFolder;
         private readonly Lazy<DirectoryInfo> _tempDirectoryForStringComparisons = new Lazy<DirectoryInfo>(() =>
@@ -17,12 +17,12 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
 
         public TestFileManager(string rootFolder)
         {
-            if (string.IsNullOrWhiteSpace(rootFolder))
-            {
-                throw new System.ArgumentException("You must specify the path to test project root folder", nameof(rootFolder));
-            }
+            //if (string.IsNullOrWhiteSpace(rootFolder))
+            //{
+            //    throw new System.ArgumentException("You must specify the path to test project root folder", nameof(rootFolder));
+            //}
 
-            _rootFolder = rootFolder;
+            _rootFolder = rootFolder ?? throw new ArgumentNullException(nameof(rootFolder));
         }
 
         public ITestFile GetExpectedFile(string fileName)

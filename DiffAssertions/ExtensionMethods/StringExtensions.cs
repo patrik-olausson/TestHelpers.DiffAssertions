@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace TestHelpers.DiffAssertions
 {
+    /// <summary>
+    /// Extension methods for working with strings.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

@@ -9,15 +9,11 @@ namespace TestHelpers.DiffAssertions
     /// </summary>
     public static class DiffAssert
     {
-        private static readonly DiffAsserter DiffAsserter;
+        private static readonly IDiffAsserter DiffAsserter;
 
         static DiffAssert()
         {
-            var settings = new ConfigurationBuilderBasedSettings();
-            DiffAsserter = new DiffAsserter(
-                new MultiTestFrameworkAsserter(settings.TestFramework),
-                new DiffToolInvoker(settings.DiffTool, settings.DiffToolArgsFormat),
-                new TestFileManager(settings.RootFolder));
+            DiffAsserter = CreateInstance();
         }
 
         /// <summary>
@@ -34,7 +30,7 @@ namespace TestHelpers.DiffAssertions
         }
 
         /// <summary>
-        /// Compares the content of a file (with the expected content) with a string that is the actual value.
+        /// Compares the content of a file (the expected result) with a string that is the actual value.
         /// </summary>
         /// <param name="nameOfFileWithExpectedResult">The file name with all folders relative to the test project root but without the .expected.txt suffix. 
         /// Example: "SomeDirectory/TheFileName"</param>
@@ -56,15 +52,30 @@ namespace TestHelpers.DiffAssertions
             return new FileContentComparer(DiffAsserter, nameOfFileWithExpectedResult);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="testFrameworkAsserter"></param>
+        /// <param name="diffTool"></param>
+        /// <param name="fileManager"></param>
+        /// <returns></returns>
         public static IDiffAsserter CreateInstance(
-            ITestFrameworkAsserter testFrameworkAsserter,
-            IDiffTool diffTool,
-            ITestFileManager fileManager)
+            ITestFrameworkAsserter testFrameworkAsserter = null,
+            IDiffTool diffTool = null,
+            ITestFileManager fileManager = null)
         {
+            if (testFrameworkAsserter != null && diffTool != null && fileManager != null)
+            {
+                return new DiffAsserter(testFrameworkAsserter, diffTool, fileManager);
+            }
+            
+            var settings = new ConfigurationBuilderBasedSettings();
+            var rootFolder = DiffToolInvoker.IsOnBuildServer() ? "" : settings.RootFolder;
+
             return new DiffAsserter(
-                testFrameworkAsserter,
-                diffTool,
-                fileManager);
+                testFrameworkAsserter ?? new MultiTestFrameworkAsserter(settings.TestFramework),
+                diffTool ?? new DiffToolInvoker(settings.DiffTool, settings.DiffToolArgsFormat),
+                fileManager ?? new TestFileManager(rootFolder));
         }
     }
 }

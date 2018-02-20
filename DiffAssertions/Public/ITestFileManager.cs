@@ -1,5 +1,8 @@
 ﻿namespace TestHelpers.DiffAssertions
 {
+    /// <summary>
+    /// The most important file operations
+    /// </summary>
     public interface ITestFileManager
     {
         /// <summary>

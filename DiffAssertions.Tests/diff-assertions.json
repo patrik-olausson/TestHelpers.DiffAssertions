@@ -1,6 +1,6 @@
 ﻿{
   //The path to the test project root folder, example: C:\Repos\MyProject\Tests
-  "RootFolder": "C:\\Patrik\\Repos\\TestHelpers\\DiffAssertions.Tests",
+  "RootFolder": "C:\\Patrik\\Repos\\DiffAssertions\\DiffAssertions.Tests",
 
   //Identifier for the test framework you are using
   //Available: xUnit, xUnit2, MsTest and nUnit

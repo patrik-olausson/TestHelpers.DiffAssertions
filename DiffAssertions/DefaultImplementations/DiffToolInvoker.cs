@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace TestHelpers.DiffAssertions.DefaultImplementations
 {
+    /// <summary>
+    /// Class responslible for starting the diff tool
+    /// </summary>
     public class DiffToolInvoker : IDiffTool
     {
         private readonly string _diffToolPath;
@@ -13,7 +16,7 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
         /// </summary>
         /// <returns>True if there is any of the known environment variables for different build servers available.</returns>
         //TODO: Is this really going to work? Have to research and test this in more detail!
-        public bool IsUnableToUse => GetEnvironmentVarialbeThatIndicatesThatThisIsABuildServer() != null;
+        public bool IsUnableToUse => IsOnBuildServer();
 
         /// <summary>
         /// 
@@ -53,10 +56,20 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
                 throw new Exception($"Unable to launch diff tool {_diffToolPath} with arguments {arguments}. Check the paths and verify that the correct values are specified in the diff-assertions.json file.", ex);
             }
         }
+
+        /// <summary>
+        /// Checks a known set of environment variables to try to figure out the testrun is on a build server or not.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsOnBuildServer()
+        {
+            return GetEnvironmentVarialbeThatIndicatesThatThisIsABuildServer() != null;
+        }
         
         private static string GetEnvironmentVarialbeThatIndicatesThatThisIsABuildServer()
         {
-            return Environment.GetEnvironmentVariable("SYSTEM_TEAMPROJECT") ??
+            return Environment.GetEnvironmentVariable("DISABLE_DIFF_ASSERTIONS") ??
+                   Environment.GetEnvironmentVariable("SYSTEM_TEAMPROJECT") ??
                    Environment.GetEnvironmentVariable("JENKINS_URL") ??
                    Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME");
         }

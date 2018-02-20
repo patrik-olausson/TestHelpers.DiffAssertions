@@ -1,0 +1,1 @@
+Works on build server if the file is marked as Copy always
