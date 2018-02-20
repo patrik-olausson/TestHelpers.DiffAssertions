@@ -6,7 +6,14 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
     public class TestFileManager : ITestFileManager
     {
         private readonly string _rootFolder;
-        private readonly DirectoryInfo _tempDirectoryForStringComparisons = new DirectoryInfo("DiffAssertions");
+        private readonly Lazy<DirectoryInfo> _tempDirectoryForStringComparisons = new Lazy<DirectoryInfo>(() =>
+            {
+                var directory = new DirectoryInfo("DiffAssertions");
+                if(!directory.Exists)
+                    directory.Create();
+
+                return directory;
+            });
 
         public TestFileManager(string rootFolder)
         {
@@ -36,7 +43,7 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
             if (nameOfFileWithExpectedResult == null)
                 nameOfFileWithExpectedResult = Guid.NewGuid().ToString();
 
-            var fullName = Path.Combine(_tempDirectoryForStringComparisons.FullName, $"{nameOfFileWithExpectedResult}.expected.txt");
+            var fullName = Path.Combine(_tempDirectoryForStringComparisons.Value.FullName, $"{nameOfFileWithExpectedResult}.expected.txt");
             var expectedFile = new FileInfo(fullName);
             expectedFile.WriteAllText(expectedValue);
 
