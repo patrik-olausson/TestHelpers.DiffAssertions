@@ -22,9 +22,7 @@ You can easily create a file that contains the expected result (your specificati
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="diff-assertions.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="diff-assertions.json" Pack="true" PackagePath="diff-assertions.json" />
   </ItemGroup>
 
 </Project>
