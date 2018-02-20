@@ -22,7 +22,7 @@ You can easily create a file that contains the expected result (your specificati
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="diff-assertions.json" Pack="true" PackagePath="diff-assertions.json" />
+    <None Include="diff-assertions.json" Pack="true" PackagePath="Content/diff-assertions.json" />
   </ItemGroup>
 
 </Project>
