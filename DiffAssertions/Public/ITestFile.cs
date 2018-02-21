@@ -13,6 +13,11 @@ namespace TestHelpers.DiffAssertions
         string FullName { get; }
 
         /// <summary>
+        /// The name of the file without the path
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// The contents of the file
         /// </summary>
         string Contents { get; }

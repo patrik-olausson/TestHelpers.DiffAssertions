@@ -10,6 +10,7 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
         private readonly Encoding _encoding;
 
         public string FullName => _fileInfo.FullName;
+        public string Name => _fileInfo.Name;
         public string Contents => _fileInfo.ReadAllText(_encoding);
         public Encoding Encoding => _encoding ?? _fileInfo.GetEncoding();
 

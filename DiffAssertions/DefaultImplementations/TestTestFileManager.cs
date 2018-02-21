@@ -17,11 +17,6 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
 
         public TestFileManager(string rootFolder)
         {
-            //if (string.IsNullOrWhiteSpace(rootFolder))
-            //{
-            //    throw new System.ArgumentException("You must specify the path to test project root folder", nameof(rootFolder));
-            //}
-
             _rootFolder = rootFolder ?? throw new ArgumentNullException(nameof(rootFolder));
         }
 
@@ -52,8 +47,9 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
 
         public ITestFile CreateActualFile(ITestFile expectedFile, string actualValue)
         {
-            var fileName = expectedFile.FullName.Replace(".expected.txt", ".actual.txt");
-            var actualFile = new FileInfo(fileName);
+            var fileName = expectedFile.Name.Replace(".expected.txt", ".actual.txt");
+            var fullName = Path.Combine(_tempDirectoryForStringComparisons.Value.FullName, fileName);
+            var actualFile = new FileInfo(fullName);
             actualFile.WriteAllText(actualValue);
 
             return new TestFile(actualFile);
