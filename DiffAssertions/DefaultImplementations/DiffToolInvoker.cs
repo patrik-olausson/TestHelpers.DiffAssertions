@@ -6,7 +6,7 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
     /// <summary>
     /// Class responslible for starting the diff tool
     /// </summary>
-    public class DiffToolInvoker : IDiffTool
+    internal class DiffToolInvoker : IDiffTool
     {
         private readonly string _diffToolPath;
         private readonly string _diffToolArgsFormat;
@@ -15,7 +15,6 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
         /// If the tests are run on a build server the diff tool should be avoided!
         /// </summary>
         /// <returns>True if there is any of the known environment variables for different build servers available.</returns>
-        //TODO: Is this really going to work? Have to research and test this in more detail!
         public bool IsUnableToUse => IsOnBuildServer();
 
         /// <summary>
