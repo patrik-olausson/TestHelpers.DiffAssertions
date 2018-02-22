@@ -1,9 +1,9 @@
 ﻿{
-  //The path to the test project root folder, example: C:\Repos\MyProject\Tests
-  "RootFolder": "SpecifyYourTestProjectRootFolderHere!",
+  //The path to the test project root folder, example: "C:\\Repos\\MyProject\\Tests"
+  "RootFolder": "SpecifyYourTestProjectRootFolderHere",
 
   //Identifier for the test framework you are using 
-  //Available: xUnit, xUnit2, MsTest and nUnit
+  //Available: xUnit2, MsTest and nUnit
   "TestFramework": "xUnit2",
 
   //The path to the diff tool you want to use.
