@@ -14,6 +14,13 @@ store a file with the expected result.
 4. Add assertion in your test method. You can use  `DiffAssert.Equals` to simply compare two strings or `DiffAssert.ThatContentsOf("MyTestSubDir/MyTestFile").Equals("Actual value")`.
 5. When you create new expected files make sure to include them in your project and marking them as **"Copy always"** or **"Copy if newer"** in order to be able to run the tests on a build server.
 
+# API Primer
+There are only two operations you can perform with this library:
+* `DiffAssert.Equals(string, string);`<br>
+Compares two strings using the current (specified) test frameworks Assert.Equal/Assert.AreEqual method and displays a diff tool if there are differences.
+* `DiffAssert.ThatContentsOf(file name).Equals(string);`<br>
+Basically does the same thing as Equals but the expected value is stored in a file. If you don't like the fluent syntax it is possible to use the alternative method `DiffAssert.ThatExpectedFileContentsEqualsActualValue(file name, string);`
+
 # How it works
 DiffAssertions always starts by performing a regular equals assertion by using the test framework you are using (specified by you in the diff-assertions.json file). If the assertion fails it creates one or two files (depending on if the expected file already exists or not) with the strings and invokes a diff tool to display the differences.
 
@@ -31,7 +38,7 @@ TestProject
 ```csharp
 var sut = CreateSystemUnderTest();
 
-var result = sut.DoWorkThatProducesAnResultObject("Some arguments");
+var result = sut.DoWorkThatProducesResultObject("Some arguments");
 
 DiffAssert
 	.ThatContentsOf("SubFolder/DescriptiveNameOfTheExpectedResultForThisTest")
@@ -48,11 +55,44 @@ TestProject
 	|-ServiceTests.cs
 	|-DescriptiveNameOfTheExpectedResultForThisTest.expected.txt
 ```
-If you are using a standard dotnet project you have to display hidden files and include the *.expected.txt files in your project.
+If you are using a standard dotnet project you have to include the *.expected.txt files in your project.
 Remember to mark all *.expected.txt as **"Copy always"** or **"Copy if newer"** to be able to run the tests on a build server.
 
-It is also worth noting that the testrunner should display the result of performing a regular equals assertion (as a complement to the diff tool). When running the test on a build server it is only this assertion that will be used.
+It is also worth noting that the testrunner always displays the result of performing a regular equals assertion (as a complement to the diff tool). When running the test on a build server it is only this assertion that will be used.
 
 You can of course manually create the expected.txt file yourself if you already know exactly what you want the output to be and have the time and will to type it :)
 
-To avoid cluttering the test directory with unnecessary files all files containing the actual value are always created in special "temp" directory (named DiffAssertions) in the output directory where the test run is executed. When using DiffAssert.Equals("A string", "Some other string") both the expected and the actual files are created in the "temp" directory.
+To avoid cluttering the test directory with unnecessary files, all files containing the actual value are always created in special "temp" directory (named DiffAssertions) in the output directory where the test run is executed. When using `DiffAssert.Equals("A string", "Some other string");` both the expected and the actual files are created in the "temp" directory.
+
+# Some useful tools
+As the example shows it is very useful to serialize objects to JSON in order to assert the state. To make this as easy as possible there are two simple extension methods you can use:<br>
+`.ToJsonString(object)`<br>
+Serializes an object to a JSON string
+`.FromJsonString<T>(string with json)`<br>
+Deserializes an object from a JSON string
+
+When serializing objects to JSON (or simply working with dynamic strings) it is often a challenge to control Guid and DateTime values that are created during the test. To avoid failing tests due to changes in these kind of values there are some helpful string extension mehtods you can use:<br>
+`.ReplaceGuids()`<br>
+Replaces Guids that are formatted with dashes (........-....-....-....-............)<br>
+`.RepalceJsonFormatedDateTime()`<br>
+Replaces date time values that are formated with dashes (....-..-...*)<br>
+`.ReplaceMatch(value or pattern to replace)`<br>
+And finally a general Regex replace method that lets you specify whatever pattern you like
+
+# "Advanced" scenarios
+It is possible to create an instance of the DiffAsserter and replace some of the key parts with your own implementations. This could be useful if you find yourself in a situation where the test framework you are using is not supported. To still be able to use DiffAssertions you implement the interface ITestFrameworkAsserter.
+```csharp
+public class MyTestFrameworkAsserter : ITestFrameworkAsserter
+{
+	public void Equals(string expected, string actual)
+	{
+		Assert.Equal(expected, actual);
+	}
+}
+```
+And then you create an instance by calling:<br>
+```csharp
+var diffAssert = DiffAssert.CreateInstance(new MyTestFrameworkAsserter());
+
+diffAssert.CompareExpectedFileWithActualValue("fileName", "actualValue");
+```
