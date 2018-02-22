@@ -15,6 +15,10 @@ You can easily create a file that contains the expected result (your specificati
     <Version>1.0.0-alfa</Version>
     <AssemblyName>TestHelpers.DiffAssertions</AssemblyName>
     <RootNamespace>TestHelpers.DiffAssertions</RootNamespace>
+    <RepositoryUrl>https://github.com/patrik-olausson/TestHelpers.DiffAssertions</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/patrik-olausson/TestHelpers.DiffAssertions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/patrik-olausson/TestHelpers.DiffAssertions</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
