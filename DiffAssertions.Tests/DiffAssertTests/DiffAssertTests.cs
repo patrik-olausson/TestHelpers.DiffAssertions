@@ -20,6 +20,13 @@ namespace DiffAssertTests
             DiffAssert.Equals("Expected", "Actual");
         }
 
+        [Fact(Skip = "Not able to run in build because it always fails...")]
+        //[Fact]
+        public void GivenThatTheExpectedValueIsDifferentThanTheExpectedFile_ItShowsTheDiffTool()
+        {
+            DiffAssert.ThatContentsOf("DiffAssertTests/LocalDiffTest").Equals("Not the expected value");
+        }
+
         [Fact(Skip = "Changes an environment variable....")]
         public void GivenThatTheTestIsRunOnTheBuildServer_ThenItChecksForTheExpectedFilesInTheOutputDirectory()
         {

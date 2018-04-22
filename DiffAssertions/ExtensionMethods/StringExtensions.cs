@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace TestHelpers.DiffAssertions
@@ -65,6 +67,30 @@ namespace TestHelpers.DiffAssertions
         public static T FromJsonString<T>(this string stringContainingJson)
         {
             return JsonConvert.DeserializeObject<T>(stringContainingJson);
+        }
+
+        /// <summary>
+        /// Takes a path and tries to extract the parent folder name of the specified child folder.
+        /// If the child folder is not found or it turns out it does not have a parent it returns null.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="childFolderName"></param>
+        /// <returns>The name of the parent folder or null.</returns>
+        public static string GetPathBeforeFolder(this string path, string childFolderName)
+        {
+            var index = path.IndexOf(childFolderName, StringComparison.OrdinalIgnoreCase);
+            if (index <= 0)
+                return null;
+
+            return path.Substring(0, index-1);
+
+
+            //var folders = path.Split("\\".ToCharArray());
+            //var indexOfChildFolder = Array.FindIndex(folders, folder => folder.Equals(childFolderName, StringComparison.OrdinalIgnoreCase));
+            //if (indexOfChildFolder > 0)
+            //    return folders[indexOfChildFolder - 1];
+
+            //return null;
         }
     }
 }

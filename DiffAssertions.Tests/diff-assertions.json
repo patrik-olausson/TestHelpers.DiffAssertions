@@ -1,6 +1,8 @@
 ﻿{
-  //The path to the test project root folder, example: C:\Repos\MyProject\Tests
-  "RootFolder": "C:\\Patrik\\Repos\\DiffAssertions\\DiffAssertions.Tests",
+  //If the test runner is running tests in the bin folder of the test project you don't have to specify any root folders, the root folder is derived from the current directory of the test run
+  //The path to the test project root folder, example: ["C:\\Repos\\MyProject\\Tests"]
+  //If multiple users have different paths specify all in the array and the matching one will be selected.
+  //"RootFolders": [ "C:\\Patrik\\Repos\\DiffAssertions\\DiffAssertions.Tests" ],
 
   //Identifier for the test framework you are using
   //Available: xUnit, xUnit2, MsTest and nUnit
