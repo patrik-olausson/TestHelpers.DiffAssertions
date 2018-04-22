@@ -7,7 +7,14 @@ namespace DiffAssertTests
 {
     public class Equals
     {
+        [Fact]
+        public void WhenTwoEqualValues_ItPassesTheTest()
+        {
+            DiffAssert.Equals("Identical", "Identical");
+        }
+
         [Fact(Skip = "Not able to run in build because it always fails...")]
+        //[Fact]
         public void GivenTwoDifferentValues_ItShowsTheDiffTool()
         {
             DiffAssert.Equals("Expected", "Actual");

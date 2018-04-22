@@ -32,9 +32,7 @@ namespace TestHelpers.DiffAssertions
                     throw;
 
                 var actualFile = _testFileManager.CreateActualFile(expectedFile, actualValue);
-                _diffTool.CompareFiles(expectedFile, actualFile);
-
-                throw new DiffAssertException(expectedFile, actualFile, ex);
+                InvokeDiffTool(expectedFile, actualFile, ex);
             }
         }
 
@@ -51,10 +49,33 @@ namespace TestHelpers.DiffAssertions
 
                 var expectedFile = _testFileManager.CreateTemporaryExpectedFile(expectedValue, fileName);
                 var actualFile = _testFileManager.CreateActualFile(expectedFile, actualValue);
-                _diffTool.CompareFiles(expectedFile, actualFile);
-
-                throw new DiffAssertException(expectedFile, actualFile, ex);
+                InvokeDiffTool(expectedFile, actualFile, ex);
             }
+        }
+
+        private void InvokeDiffTool(
+            ITestFile expectedFile,
+            ITestFile actualFile,
+            Exception testRunnerException)
+        {
+            try
+            {
+                _diffTool.CompareFiles(expectedFile, actualFile);
+            }
+            catch (Exception ex)
+            {
+                throw new DiffAssertException(
+                    expectedFile,
+                    actualFile,
+                    testRunnerException,
+                    ex.Message);
+                
+            }
+
+            throw new DiffAssertException(
+                expectedFile, 
+                actualFile, 
+                testRunnerException);
         }
     }
 }
