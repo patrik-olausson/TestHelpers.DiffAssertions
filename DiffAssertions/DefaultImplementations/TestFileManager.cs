@@ -5,6 +5,19 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
 {
     internal class TestFileManager : ITestFileManager
     {
+        /// <summary>
+        /// When a new (expected) file is created a text with short instructions
+        /// is shown. This is a helpful way of preventing a nasty problem that seems
+        /// to occur when trying to save an empty string into the file.
+        /// For some reason an empty string doesn't ensure that the file is created
+        /// with the specified UTF-8 encoding (it ends up in Windows 1252 on some machines)!
+        /// </summary>
+        private const string NewExpectedFileText = 
+@"********  DiffAssertions  ********
+Check the actual content carefully
+and then sync it with the expected
+content for future use
+**********************************";
         private readonly string _rootFolder;
         private readonly Lazy<DirectoryInfo> _tempDirectoryForStringComparisons = new Lazy<DirectoryInfo>(() =>
             {
@@ -27,7 +40,7 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
 
             if (!expectedFile.Exists)
             {
-                expectedFile.WriteAllText("");
+                expectedFile.WriteAllText(NewExpectedFileText);
             }
 
             return new TestFile(expectedFile);

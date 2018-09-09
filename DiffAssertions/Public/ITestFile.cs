@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace TestHelpers.DiffAssertions
+﻿namespace TestHelpers.DiffAssertions
 {
     /// <summary>
     /// The most important information about a test file
@@ -21,10 +19,5 @@ namespace TestHelpers.DiffAssertions
         /// The contents of the file
         /// </summary>
         string Contents { get; }
-
-        /// <summary>
-        /// The encoding to use when working with the file
-        /// </summary>
-        Encoding Encoding { get; }
     }
 }
