@@ -10,7 +10,7 @@ You can easily create a file that contains the expected result (your specificati
     <Copyright>Patrik Olausson, 2018</Copyright>
     <PackageTags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>NuGet\DiffAssertions.snk</AssemblyOriginatorKeyFile>
     <Version>1.0.0-alfa</Version>
     <AssemblyName>TestHelpers.DiffAssertions</AssemblyName>
