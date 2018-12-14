@@ -83,14 +83,6 @@ namespace TestHelpers.DiffAssertions
                 return null;
 
             return path.Substring(0, index-1);
-
-
-            //var folders = path.Split("\\".ToCharArray());
-            //var indexOfChildFolder = Array.FindIndex(folders, folder => folder.Equals(childFolderName, StringComparison.OrdinalIgnoreCase));
-            //if (indexOfChildFolder > 0)
-            //    return folders[indexOfChildFolder - 1];
-
-            //return null;
         }
     }
 }

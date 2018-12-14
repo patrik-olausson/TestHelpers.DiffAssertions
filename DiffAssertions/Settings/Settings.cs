@@ -20,15 +20,25 @@ namespace DiffAssertions.Settings
 
         public ConfigurationBuilderBasedSettings()
         {
-            RootFolder = TryToFindRootFolderIfTestRunIsInBinFolder() ??
-                         SelectRootFolder();
+            var rootFolder = 
+                TryToGetValueFromConfigFile() ??
+                TryToFindRootFolderIfTestRunIsInBinFolder() ??
+                Directory.GetCurrentDirectory();
+
+            if(string.IsNullOrWhiteSpace(rootFolder))
+                throw new Exception("Unable to load root folder candidates from settings file. You must specify at least one path or the solution name.");
+
+            RootFolder = rootFolder;
         }
 
-        private string SelectRootFolder()
+        private string TryToGetValueFromConfigFile()
         {
             try
             {
                 var rootFolderCandidates = _config.GetSection("RootFolders").GetChildren().Select(x => x.Value).ToArray();
+                if (rootFolderCandidates.Length == 0)
+                    return null;
+
                 foreach (var rootFolderCandidate in rootFolderCandidates)
                 {
                     if (Directory.Exists(rootFolderCandidate))
@@ -37,13 +47,15 @@ namespace DiffAssertions.Settings
                     }
                 }
 
-                throw new Exception("None of the specified root folders exist, please check the paths specified in the settings file.");
+                throw new DirectoryNotFoundException("None of the specified root folders exist, please check the paths specified in the settings file.");
             }
-            catch (Exception ex)
+            catch (DirectoryNotFoundException)
             {
-                throw new Exception(
-                    "Unable to load root folder candidates from settings file. You must specify at least one path or the solution name.",
-                    ex);
+                throw;
+            }
+            catch
+            {
+                return null;
             }
         }
 
