@@ -21,7 +21,7 @@ content for future use
         private readonly string _rootFolder;
         private readonly Lazy<DirectoryInfo> _tempDirectoryForStringComparisons = new Lazy<DirectoryInfo>(() =>
             {
-                var directory = new DirectoryInfo("DiffAssertions");
+                var directory = new DirectoryInfo("[DiffAssertions]");
                 if(!directory.Exists)
                     directory.Create();
 
