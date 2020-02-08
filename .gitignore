@@ -290,3 +290,5 @@ __pycache__/
 # DiffAssertions
 *.actual.txt
 *.expected.txt.bak
+
+[DiffAssertions]*/

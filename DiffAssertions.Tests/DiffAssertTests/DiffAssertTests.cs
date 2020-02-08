@@ -8,9 +8,17 @@ namespace DiffAssertTests
     public class Equals
     {
         [Fact]
-        public void WhenTwoEqualValues_ItPassesTheTest()
+        public void GivenTwoEqualValues_ItPassesTheTest()
         {
             DiffAssert.Equals("Identical", "Identical");
+        }
+
+        [Fact]
+        public void GivenThatTheActualValueEqualsTheValueInTheExpectedFile_ItPassesTheTest()
+        {
+            DiffAssert
+                .ThatContentsOf("DiffAssertTests/FileWithContentThatShouldMatchTheActualValue")
+                .Equals("The actual value");
         }
 
         [Fact(Skip = "Not able to run in build because it always fails...")]
