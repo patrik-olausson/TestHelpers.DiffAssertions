@@ -4,9 +4,9 @@ using System.Diagnostics;
 namespace TestHelpers.DiffAssertions.DefaultImplementations
 {
     /// <summary>
-    /// Class responslible for starting the diff tool
+    /// Class responsible for starting the diff tool
     /// </summary>
-    internal class DiffToolInvoker : IDiffTool
+    public class DiffToolInvoker : IDiffTool
     {
         private readonly string _diffToolPath;
         private readonly string _diffToolArgsFormat;
@@ -62,10 +62,10 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
         /// <returns></returns>
         public static bool IsOnBuildServer()
         {
-            return GetEnvironmentVarialbeThatIndicatesThatThisIsABuildServer() != null;
+            return GetEnvironmentVariableThatIndicatesThatThisIsABuildServer() != null;
         }
         
-        private static string GetEnvironmentVarialbeThatIndicatesThatThisIsABuildServer()
+        private static string GetEnvironmentVariableThatIndicatesThatThisIsABuildServer()
         {
             return Environment.GetEnvironmentVariable("DISABLE_DIFF_ASSERTIONS") ??
                    Environment.GetEnvironmentVariable("SYSTEM_TEAMPROJECT") ??
