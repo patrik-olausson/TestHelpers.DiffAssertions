@@ -290,5 +290,4 @@ __pycache__/
 # DiffAssertions
 *.actual.txt
 *.expected.txt.bak
-
-[DiffAssertions]*/
+/DiffAssertions.nUnitTests/SubFolder/Class1.cs
