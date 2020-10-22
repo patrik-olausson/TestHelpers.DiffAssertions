@@ -31,6 +31,12 @@
     <None Update="DiffAssertTests\BuildServerTest.expected.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="DiffAssertTests\FileWithContentThatShouldMatchTheActualValue.expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DiffAssertTests\LocalDiffTest.expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
