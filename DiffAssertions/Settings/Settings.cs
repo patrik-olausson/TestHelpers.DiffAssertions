@@ -15,7 +15,7 @@ namespace DiffAssertions.Settings
 
         public string RootFolder { get; }
         public TestFrameworkIdentifier TestFramework => GetConfiguredTestFramework();
-        public string DiffTool => _config["DiffTool"];
+        public string DiffTool { get; }
         public string DiffToolArgsFormat => _config["DiffToolArgsFormat"];
 
         public ConfigurationBuilderBasedSettings()
@@ -29,6 +29,16 @@ namespace DiffAssertions.Settings
                 throw new Exception("Unable to load root folder candidates from settings file. You must specify at least one path or the solution name.");
 
             RootFolder = rootFolder;
+            DiffTool = SelectDiffToolPathToUse();
+        }
+
+        private string SelectDiffToolPathToUse()
+        {
+            var diffToolPathCandidates = _config.GetSection("DiffTool").GetChildren().Select(x => x.Value);
+            var firstCandidateThatExist = diffToolPathCandidates.FirstOrDefault(File.Exists);
+
+            return firstCandidateThatExist ??
+                   "None of the specified paths to the DiffTool exe file is valid.";
         }
 
         private string TryToGetValueFromConfigFile()

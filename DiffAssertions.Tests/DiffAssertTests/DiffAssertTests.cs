@@ -1,6 +1,5 @@
 ﻿using System;
 using TestHelpers.DiffAssertions;
-using TestHelpers.DiffAssertions.DefaultImplementations;
 using Xunit;
 
 namespace DiffAssertTests
