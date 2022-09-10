@@ -37,6 +37,9 @@
     <None Update="DiffAssertTests\LocalDiffTest.expected.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="DiffAssertTests\FileWithNonWindowsLineEnding.expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
