@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TestHelpers.DiffAssertions.Settings;
@@ -70,9 +71,16 @@ namespace TestHelpers.DiffAssertions.DefaultImplementations
         private Action<string[]> CreateEqualsActionForXUnit2()
         {
             var type = Type.GetType("Xunit.Assert, xunit.assert");
-            var method = type.GetMethods().First(m => m.Name == "Equal" && m.GetParameters().Length == 2);
+            var method = type.GetMethods().First(m => m.Name == "Equal" && m.GetParameters().Length == 5);
             
-            return args => method.Invoke(null, args); ;
+            return args =>
+            {
+                var extendedArgs = new List<object>(args);
+                extendedArgs.Add(false);
+                extendedArgs.Add(true);
+                extendedArgs.Add(false);
+                method.Invoke(null, extendedArgs.ToArray());
+            };
         }
     }
 }
