@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using TestHelpers.DiffAssertions;
@@ -20,6 +21,18 @@ namespace DiffAssertTests
             DiffAssert
                 .ThatContentsOf("DiffAssertTests/FileWithContentThatShouldMatchTheActualValue")
                 .Equals("The actual value");
+        }
+
+        [Fact]
+        public void GivenThatMultipleExpectedFilesInDifferentDirectoriesShareTheSameNameAndBothDiff_ThenCreatesTwoActualFilesWithoutConflict()
+        {
+            Assert.ThrowsAny<DiffAssertException>(() => DiffAssert
+                .ThatContentsOf("DiffAssertTests/Directory1/FileWithSameNameAsOtherInDifferentDirectory")
+                .Equals("Value different from expected file value"));
+
+            Assert.ThrowsAny<DiffAssertException>(() => DiffAssert
+                .ThatContentsOf("DiffAssertTests/Directory2/FileWithSameNameAsOtherInDifferentDirectory")
+                .Equals("Value different from expected file value"));
         }
 
         [Fact]
