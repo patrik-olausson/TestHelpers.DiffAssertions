@@ -42,4 +42,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DiffAssertTests\Directory1\" />
+    <Folder Include="DiffAssertTests\Directory2\" />
+  </ItemGroup>
+
 </Project>

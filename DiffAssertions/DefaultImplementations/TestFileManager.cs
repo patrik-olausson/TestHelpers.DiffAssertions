@@ -60,12 +60,37 @@ content for future use
 
         public ITestFile CreateActualFile(ITestFile expectedFile, string actualValue)
         {
+            var workingDirectory = string.IsNullOrEmpty(_rootFolder)
+                ? Directory.GetCurrentDirectory()
+                : _rootFolder;
+
+            var actualFilesRootDirectory = _tempDirectoryForStringComparisons.Value.FullName;
+
+            var relativeDirectoryPath = GetRelativeDirectoryPath(expectedFile.FullName, workingDirectory);
+
+            var directory = Directory.CreateDirectory(Path.Combine(actualFilesRootDirectory, relativeDirectoryPath));
+
             var fileName = expectedFile.Name.Replace(".expected.txt", ".actual.txt");
-            var fullName = Path.Combine(_tempDirectoryForStringComparisons.Value.FullName, fileName);
-            var actualFile = new FileInfo(fullName);
+            
+            var actualFile = new FileInfo(Path.Combine(directory.FullName, fileName));
             actualFile.WriteAllText(actualValue);
 
             return new TestFile(actualFile);
+        }
+
+        private static string GetRelativeDirectoryPath(
+            string fullFileName,
+            string workingDirectory)
+        {
+            if (!fullFileName.StartsWith(workingDirectory)) return string.Empty;
+
+            var fullDirectoryPath = Path.GetDirectoryName(fullFileName);
+
+            if (string.IsNullOrEmpty(fullDirectoryPath)) return string.Empty;
+
+            return fullDirectoryPath
+                .Substring(workingDirectory.Length)
+                .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
     }
 }
