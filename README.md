@@ -167,7 +167,3 @@ var diffAssert = DiffAssert.CreateInstance(new MyTestFrameworkAsserter());
 
 diffAssert.CompareExpectedFileWithActualValue("fileName", "actualValue");
 ```
-
-# Known limitations
-
-- Each _.expected.txt file must have an unique name to avoid naming collisions when the _.actual.txt files are created (the folder structure aren't currently preserved in the DiffAssertions folder).
