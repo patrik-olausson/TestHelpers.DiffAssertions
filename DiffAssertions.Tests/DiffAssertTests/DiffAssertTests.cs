@@ -23,6 +23,18 @@ namespace DiffAssertTests
         }
 
         [Fact]
+        public void GivenThatMultipleExpectedFilesInDifferentDirectoriesShareTheSameNameAndBothDiff_ThenCreatesTwoActualFilesWithoutConflict()
+        {
+            Assert.ThrowsAny<DiffAssertException>(() => DiffAssert
+                .ThatContentsOf("DiffAssertTests/Directory1/FileWithSameNameAsOtherInDifferentDirectory")
+                .Equals("Value different from expected file value"));
+
+            Assert.ThrowsAny<DiffAssertException>(() => DiffAssert
+                .ThatContentsOf("DiffAssertTests/Directory2/FileWithSameNameAsOtherInDifferentDirectory")
+                .Equals("Value different from expected file value"));
+        }
+
+        [Fact]
         public void GivenAnExpectedFileThatContainsNonWindowsLineEndingsButTheActualTextHasBothCrLf_ItIgnoresLineEndingsWhenTriggeringAssert()
         {
             var sb = new StringBuilder();
