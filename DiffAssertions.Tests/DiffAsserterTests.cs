@@ -2,7 +2,6 @@ using System;
 using FakeItEasy;
 using TestHelpers.DiffAssertions;
 using TestHelpers.DiffAssertions.DefaultImplementations;
-using TestHelpers.DiffAssertions.Settings;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -44,7 +43,7 @@ namespace DiffAsserterTests
             var sut = CreateSut();
 
             var ex = Assert.Throws<DiffAssertException>(() => sut.CompareStrings("Hello", "Goodbye"));
-            _testOutputHelper.WriteLine(ex.InnerException.Message);
+            _testOutputHelper.WriteLine(ex.InnerException?.Message);
         }
 
         [Fact]
@@ -96,7 +95,7 @@ namespace DiffAsserterTests
             ITestFileManager fileManager = null)
         {
             return DiffAssert.CreateInstance(
-                testFrameworkAsserter ?? new MultiTestFrameworkAsserter(TestFrameworkIdentifier.xUnit2), 
+                testFrameworkAsserter ?? new FluentAssertionsAsserter(), 
                 diffTool ?? CreateFakeDiffTool(),
                 fileManager ?? A.Fake<ITestFileManager>());
         }

@@ -70,10 +70,10 @@ namespace TestHelpers.DiffAssertions
             }
             
             var settings = new ConfigurationBuilderBasedSettings();
-            var rootFolder = DiffToolInvoker.IsOnBuildServer() ? "" : settings.RootFolder;
+            var rootFolder = DiffToolInvoker.IsOnBuildServer() ? string.Empty : settings.RootFolder;
 
             return new DiffAsserter(
-                testFrameworkAsserter ?? new MultiTestFrameworkAsserter(settings.TestFramework),
+                testFrameworkAsserter ?? new FluentAssertionsAsserter(),
                 diffTool ?? new DiffToolInvoker(settings.DiffTool, settings.DiffToolArgsFormat),
                 fileManager ?? new TestFileManager(rootFolder));
         }

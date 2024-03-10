@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using TestHelpers.DiffAssertions;
-using TestHelpers.DiffAssertions.Settings;
 
 namespace DiffAssertions.Settings
 {
@@ -14,7 +13,6 @@ namespace DiffAssertions.Settings
             .Build();
 
         public string RootFolder { get; }
-        public TestFrameworkIdentifier TestFramework => GetConfiguredTestFramework();
         public string DiffTool { get; }
         public string DiffToolArgsFormat => _config["DiffToolArgsFormat"];
 
@@ -78,27 +76,6 @@ namespace DiffAssertions.Settings
             catch
             {
                 return null;
-            }
-        }
-
-        private TestFrameworkIdentifier GetConfiguredTestFramework()
-        {
-            try
-            {
-                var configurationValue = _config["TestFramework"];
-                if (string.IsNullOrWhiteSpace(configurationValue))
-                    throw new Exception("Configuration value missing!");
-
-                Enum.TryParse(
-                    configurationValue,
-                    true,
-                    out TestFrameworkIdentifier testFrameworkIdentifier);
-
-                return testFrameworkIdentifier;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to get configuration value for TestFramework", ex);
             }
         }
     }

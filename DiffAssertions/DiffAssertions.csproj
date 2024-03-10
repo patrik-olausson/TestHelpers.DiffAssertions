@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Patrik Olausson</Authors>
     <Company />
     <Description>A simple diff comparison asserter that makes it easy to assert if two texts (strings) are equal, and display the differences in a diff tool if they are not.
@@ -28,6 +28,7 @@ You can easily create a file that contains the expected result (your specificati
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
   </ItemGroup>
 
