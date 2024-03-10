@@ -43,6 +43,12 @@
     <None Update="DiffAssertTests\FileWithNonWindowsLineEnding.expected.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="DiffAssertTests\Directory1\FileWithSameNameAsOtherInDifferentDirectory.expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DiffAssertTests\Directory2\FileWithSameNameAsOtherInDifferentDirectory.expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
