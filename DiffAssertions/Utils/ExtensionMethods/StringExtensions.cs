@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
@@ -11,7 +10,7 @@ namespace TestHelpers.DiffAssertions
     public static class StringExtensions
     {
         /// <summary>
-        /// Helper mehtod that searches a (JSON) text for all guids that contains dashes and replaces them 
+        /// Helper method that searches a (JSON) text for all guids that contains dashes and replaces them 
         /// with the specified replacement value in order to make it more usable together diff assertions.
         /// </summary>
         public static string ReplaceGuids(this string value, string replacementValue = "ReplacedGuid")
@@ -71,7 +70,7 @@ namespace TestHelpers.DiffAssertions
 
         /// <summary>
         /// Takes a path and tries to extract the parent folder name of the specified child folder.
-        /// If the child folder is not found or it turns out it does not have a parent it returns null.
+        /// If the child folder is not found, or it turns out it does not have a parent it returns null.
         /// </summary>
         /// <param name="path"></param>
         /// <param name="childFolderName"></param>
