@@ -5,7 +5,7 @@ using System.Text;
 namespace TestHelpers.DiffAssertions
 {
     /// <summary>
-    /// Extension mehtods that makes it easer to work with FileInfo instances.
+    /// Extension methods that makes it easier to work with FileInfo instances.
     /// </summary>
     public static class FileInfoExtensions
     {
