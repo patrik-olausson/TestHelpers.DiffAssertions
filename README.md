@@ -7,27 +7,49 @@ and letting you get an overview of all the differences.
 A very useful way to assert object state is to serialize the object to JSON and use DiffAssert to
 store a file with the expected result.
 
+## New in version 2.0
+If you don't want to use text and files to compare complex objects there is a new way added to the library that
+lets you assert the state of an object directly. By using an extension method on top of FluentAssertions it is
+possible to make assertions like this:
+
+```csharp
+var original = CreateReferenceObject();
+var updated = CreateReferenceObject();
+updated.Name = "UpdatedName";
+updated.Address.City = "UpdatedCity";
+
+updated.Should().HaveValuesAsExpected(
+      new
+      {
+          Name = "UpdatedName"
+      },
+      original,
+      excludePropertyNames: new []
+      {
+          "Address.City"
+      });
+```
+You can read more about it at the end of the getting started guide in the section [API Primer - Verifying object state](#api-primer---verifying-object-state)
+
+# API Primer - DiffAssert using files
+
 # Getting Started
 
 1. Install the nuget package TestHelpers.DiffAssertions in your unit test project.
 2. Update (or add the file if it wasn't added automatically along with the NuGet package) the settings in the diff-assertions.json file
-   <br>Supported TestFrameworks are: xUnit2, nUnit and MsTest.<br>
-   Supported (tested) DiffTools are: WinMerge and Visual Studio.
+  Supported (tested) DiffTools are: WinMerge and Visual Studio. It is possible to specify multiple diff tools in the DiffTool array. The first one that is found will be used.
 
 ```json
 {
-  "TestFramework": "xUnit2",
-  "DiffTool": "C:\\Program Files (x86)\\WinMerge\\WinMergeU.exe",
+  "DiffTool": ["C:/Program Files/WinMerge/WinMergeU.exe"],
   "DiffToolArgsFormat": "{0} {1}"
 }
 ```
 
 3. Make sure the diff-assertions.json file is marked as **"Copy always"** or **"Copy if newer"** in order to make the file available when running the tests.
 4. Add assertion in your test method. You can use `DiffAssert.Equals` to simply compare two strings or `DiffAssert.ThatContentsOf("MyTestSubDir/MyTestFile").Equals("Actual value")`.
-5. When you create new expected files make sure to include them in your project and marking them as **"Copy always"** or **"Copy if newer"** in order to be able to run the tests on a build server.
+5. When you create new expected files make sure to mark them as **"Copy always"** or **"Copy if newer"** in order to be able to run the tests on a build server.
 6. Add \*.expected.txt.bak to your .gitignore file
-
-# API Primer
 
 There are only two operations you can perform with this library:
 
@@ -103,67 +125,61 @@ Replaces date time values that are formated with dashes (....-..-...\*)<br>
 `.ReplaceMatch(value or pattern to replace)`<br>
 And finally a general Regex replace method that lets you specify whatever pattern you like
 
-# "Advanced" scenarios
+# API Primer - Verifying object state
 
-When using nUnit you have to set the working directory yourself because nUnit does not do it for you.
-You need to do two things in order to get it working:
+Object comparison is an extension that is leveraging the power of FluentAssertions. It adds a layer of abstraction 
+to make it easier(?) to compare objects directly. It is a possible to verify that an object has the expected state by 
+comparing it against another object, a "template object". If you only want to verify a subset of properties you 
+can use an anonymous object.
 
-1. Add this class in the root of your test suite namespace
-
-```csharp
-[SetUpFixture]
-public class NUnitDiffAssertionSetup
-{
-    [OneTimeSetUp]
-    public void GlobalSetupOfWorkingDirectoryToEnableDiffAssertions()
-    {
-        //NUnit does not set the working directory, which is a problem when using DiffAssertions that relies on it...
-        string currentDirectory;
-            if (DiffToolInvoker.IsOnBuildServer())
-            {
-                currentDirectory = GetTestRunDirectory();
-            }
-            else
-            {
-                currentDirectory = GetSourceCodeDirectory();
-            }
-
-            Directory.SetCurrentDirectory(currentDirectory);
-    }
-
-    private string GetTestRunDirectory()
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        var testRunDirectory = assembly.Location.Replace($"{assembly.GetName().Name}.dll", "");
-
-        return testRunDirectory;
-    }
-
-    private string GetSourceCodeDirectory()
-    {
-        return Assembly.GetExecutingAssembly().Location.GetPathBeforeFolder("bin");
-    }
-}
-```
-
-2. Add DiffAssertions*/ to your .gitignore file. Because we have to set the working directory ourselves we get a little side effect, the DiffAssertion temp directory for *.actual.txt files are created in the root directory of the test project!
-
-It is possible to create an instance of the DiffAsserter and replace some of the key parts with your own implementations. This could be useful if you find yourself in a situation where the test framework you are using is not supported. To still be able to use DiffAssertions you implement the interface ITestFrameworkAsserter.
+When verifying that an object has been updated as expected it is also possible to verify that only the subset of 
+expected properties was updated by providing the original object as input. It is also possible to explicitly 
+exclude selected properties from the assertion. 
 
 ```csharp
-public class MyTestFrameworkAsserter : ITestFrameworkAsserter
-{
-	public void Equals(string expected, string actual)
-	{
-		Assert.Equal(expected, actual);
-	}
-}
+var original = CreateReferenceObject();
+var updated = CreateReferenceObject();
+updated.Name = "UpdatedName";
+updated.Address.City = "UpdatedCity";
+
+updated.Should().HaveValuesAsExpected(
+      new
+      {
+          Name = "UpdatedName"
+      },
+      original,
+      excludePropertyNames: new []
+      {
+          "Address.City"
+      });
 ```
 
-And then you create an instance by calling:<br>
-
+It is also possible to exclude properties by using lambda expressions or provide a "template object" (anonymous object).
+    
 ```csharp
-var diffAssert = DiffAssert.CreateInstance(new MyTestFrameworkAsserter());
+// Exclude properties by using lambda expressions
+updated.Should().HaveValuesAsExpected(
+      new
+      {
+          Name = "UpdatedName"
+      },
+      original,
+      x => x.Address.City);
 
-diffAssert.CompareExpectedFileWithActualValue("fileName", "actualValue");
+// Exclude properties by providing a "template object"
+updated.Should().HaveValuesAsExpected(
+      new
+      {
+          Name = "UpdatedName"
+      },
+      original,
+      new
+      {
+          Address = new
+          {
+              City = string.Empty //Could be whatever value, it's not used
+          }
+      });
 ```
+
+Check out the unit tests in ObjectDiffAssertionExtensionsTests.cs for more examples.

@@ -22,8 +22,8 @@ namespace TestHelpers.DiffAssertions
         /// <param name="expected">The value you expect</param>
         /// <param name="actual">The actual value</param>
         /// <param name="nameOfFilesIfDiff">The name you want to give the files created to be able to use the diff tool.
-        /// If you don't specify a name a Guid will be used as a name and it will be harder to understand what test
-        /// it was that failed. The diff files are created in a separate folder (DiffFiles) in the testrun directory.</param>
+        /// If you don't specify a name a Guid will be used as a name, and it will be harder to understand what test
+        /// it was that failed. The diff files are created in a separate folder (DiffFiles) in the test run directory.</param>
         public static void Equals(string expected, string actual, string nameOfFilesIfDiff = null)
         {
             DiffAsserter.CompareStrings(expected, actual, nameOfFilesIfDiff);
