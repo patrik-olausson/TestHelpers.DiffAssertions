@@ -59,20 +59,20 @@ public class DefineExclusions : ObjectDiffAssertionTestHarness
     }
 }
 
-public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
+public class HaveValuesAsExpected : ObjectDiffAssertionTestHarness
 {
-    public BeUpdatedAsExpected(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
+    public HaveValuesAsExpected(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
     {
     }
 
     [Fact]
     public void GivenUpdateOfTwoPropertiesThatMatchesTemplate_ThenItAssertsSuccess()
     {
-        var updated = CreateReferenceObject();
-        updated.Name = "UpdatedName";
-        updated.Address.City = "UpdatedCity";
+        var person = CreateReferenceObject();
+        person.Name = "UpdatedName";
+        person.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        person.Should().HaveValuesAsExpected(
             new
             {
                 Name = "UpdatedName",
@@ -83,12 +83,12 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
     [Fact]
     public void GivenUpdateOfTwoPropertiesThatDoesNotMatchesTemplate_ThenItReportsError()
     {
-        var updated = CreateReferenceObject();
-        updated.Name = "UpdatedName";
-        updated.Address.City = "UpdatedCity";
+        var person = CreateReferenceObject();
+        person.Name = "UpdatedName";
+        person.Address.City = "UpdatedCity";
 
         AssertThatErrorWasReported(
-            () => updated.Should().BeUpdatedAsExpected(
+            () => person.Should().HaveValuesAsExpected(
             new
             {
                 Name = "NewName",
@@ -100,11 +100,11 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
     [Fact]
     public void GivenUpdateOfTwoPropertiesButOnlyOneIsMatchedUsingTemplate_ThenItAssertsSuccess()
     {
-        var updated = CreateReferenceObject();
-        updated.Name = "UpdatedName";
-        updated.Address.City = "UpdatedCity";
+        var person = CreateReferenceObject();
+        person.Name = "UpdatedName";
+        person.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        person.Should().HaveValuesAsExpected(
             new
             {
                 Name = "UpdatedName",
@@ -119,7 +119,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         updated.Name = "UpdatedName";
         updated.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        updated.Should().HaveValuesAsExpected(
             new
             {
                 Name = "UpdatedName",
@@ -137,7 +137,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         updated.Address.City = "UpdatedCity";
 
         AssertThatErrorWasReported(
-            () => updated.Should().BeUpdatedAsExpected(
+            () => updated.Should().HaveValuesAsExpected(
                 new
                 {
                     Name = "UpdatedName"
@@ -154,7 +154,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         updated.Name = "UpdatedName";
         updated.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        updated.Should().HaveValuesAsExpected(
                 new
                 {
                     Name = "UpdatedName"
@@ -174,7 +174,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         updated.Name = "UpdatedName";
         updated.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        updated.Should().HaveValuesAsExpected(
             new
             {
                 Name = "UpdatedName"
@@ -191,7 +191,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         updated.Name = "UpdatedName";
         updated.Address.City = "UpdatedCity";
 
-        updated.Should().BeUpdatedAsExpected(
+        updated.Should().HaveValuesAsExpected(
             new
             {
                 Name = "UpdatedName"
@@ -212,7 +212,7 @@ public class BeUpdatedAsExpected : ObjectDiffAssertionTestHarness
         var updated = CreateReferenceObject();
         updated.ContactInfos[1].Value = "UpdatedEmail";
 
-        updated.Should().BeUpdatedAsExpected(
+        updated.Should().HaveValuesAsExpected(
             new
             {
                 ContactInfos = new[]

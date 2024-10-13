@@ -19,20 +19,20 @@ namespace TestHelpers.DiffAssertions
         /// you can specify the original object for verification. 
         /// </summary>
         /// <param name="assertions">The extended FluentAssertion object (ObjectAssertions)</param>
-        /// <param name="expectedUpdates">The object template you want to use for asserting that the updated object has the expected values.
+        /// <param name="expectedValues">The object template you want to use for asserting that the object has the expected values.
         /// It is possible to use an anonymous object as long as you use the same property names and structure as the object you are asserting.</param>
         /// <param name="originalObject">Optional object that, if provided, will be used to verify that all other properties than the excluded ones
         /// are still matching the object you are asserting. All properties included in the expected updates are (off course) automatically excluded.</param>
         /// <param name="excludePropertiesByTemplate"></param>
         /// <returns></returns>
-        public static AndConstraint<ObjectAssertions> BeUpdatedAsExpected(
+        public static AndConstraint<ObjectAssertions> HaveValuesAsExpected(
             this ObjectAssertions assertions,
-            object expectedUpdates,
+            object expectedValues,
             object originalObject = null,
             object excludePropertiesByTemplate = null)
         {
-            return assertions.BeUpdatedAsExpected(
-                expectedUpdates,
+            return assertions.HaveValuesAsExpected(
+                expectedValues,
                 originalObject,
                 excludePropertiesByTemplate?.GetLeafPropertyNames());
         }
@@ -43,21 +43,21 @@ namespace TestHelpers.DiffAssertions
         /// you can specify the original object for verification. 
         /// </summary>
         /// <param name="assertions">The extended FluentAssertion object (ObjectAssertions)</param>
-        /// <param name="expectedUpdates">The object template you want to use for asserting that the updated object has the expected values.
+        /// <param name="expectedValues">The object template you want to use for asserting that the object has the expected values.
         /// It is possible to use an anonymous object as long as you use the same property names and structure as the object you are asserting.</param>
         /// <param name="originalObject">Optional object that, if provided, will be used to verify that all other properties than the excluded ones
         /// are still matching the object you are asserting. All properties included in the expected updates are (off course) automatically excluded.</param>
         /// <param name="excludePropertySelectors"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static AndConstraint<ObjectAssertions> BeUpdatedAsExpected<T>(
+        public static AndConstraint<ObjectAssertions> HaveValuesAsExpected<T>(
             this ObjectAssertions assertions,
-            object expectedUpdates,
+            object expectedValues,
             T originalObject,
             params Expression<Func<T, object>>[] excludePropertySelectors)
         {
-            return assertions.BeUpdatedAsExpected(
-                expectedUpdates,
+            return assertions.HaveValuesAsExpected(
+                expectedValues,
                 originalObject,
                 excludePropertySelectors.Select(x => PropertyNameReflectionUtils.GetLeafMemberName(x.Body)).ToList());
         }
@@ -68,15 +68,15 @@ namespace TestHelpers.DiffAssertions
         /// you can specify the original object for verification. 
         /// </summary>
         /// <param name="assertions">The extended FluentAssertion object (ObjectAssertions)</param>
-        /// <param name="expectedUpdates">The object template you want to use for asserting that the updated object has the expected values.
+        /// <param name="expectedValues">The object template you want to use for asserting that the object has the expected values.
         /// It is possible to use an anonymous object as long as you use the same property names and structure as the object you are asserting.</param>
         /// <param name="originalObject">Optional object that, if provided, will be used to verify that all other properties than the excluded ones
         /// are still matching the object you are asserting. All properties included in the expected updates are (off course) automatically excluded.</param>
         /// <param name="excludePropertyNames">Optional list of property names (full names if leaf properties) to exclude from </param>
         /// <returns>AndConstraint that makes it possible to continue chaining calls using FluentAssertions.</returns>
-        public static AndConstraint<ObjectAssertions> BeUpdatedAsExpected(
+        public static AndConstraint<ObjectAssertions> HaveValuesAsExpected(
             this ObjectAssertions assertions,
-            object expectedUpdates,
+            object expectedValues,
             object originalObject,
             IReadOnlyCollection<string> excludePropertyNames)
         {
@@ -85,7 +85,7 @@ namespace TestHelpers.DiffAssertions
                 var propertiesToExcludeIncludingTheExpectedValuesThatAreAssertedSeparately =
                     excludePropertyNames?.ToList() ?? new List<string>();
                 propertiesToExcludeIncludingTheExpectedValuesThatAreAssertedSeparately.AddRange(
-                    expectedUpdates.GetLeafPropertyNames());
+                    expectedValues.GetLeafPropertyNames());
 
                 return assertions.BeEquivalentTo(
                         originalObject,
@@ -93,12 +93,12 @@ namespace TestHelpers.DiffAssertions
                         "the expected updates should be the only changes made to the original object"
                     )
                     .And.BeEquivalentTo(
-                        expectedUpdates,
+                        expectedValues,
                         config => config.Excluding(x => excludePropertyNames.ContainsPropertyPath(x.Path)));
             }
 
             return assertions.BeEquivalentTo(
-                expectedUpdates,
+                expectedValues,
                 config => config.Excluding(x => excludePropertyNames.ContainsPropertyPath(x.Path)));
         }
 
