@@ -6,13 +6,13 @@
     <Company />
     <Description>A simple diff comparison asserter that makes it easy to assert if two texts (strings) are equal, and display the differences in a diff tool if they are not.
 Simply put it is a much simpler (and dumber) version of ApprovalTests that should get the job done for simple scenarios.
-You can easily create a file that contains the expected result (your specification or example) and then compare the contents of the file with the actual value that is produced during the test.</Description>
+You can easily create a file that contains the expected result (your specification or example) and then compare the contents of the file with the actual value that is produced during the test. A new addition is the ability to compare objects wihout using files. It is an extension of FluentAssertions that allows comparison and exclusion of complex objects. </Description>
     <Copyright>Patrik Olausson, 2018</Copyright>
-    <PackageTags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification</PackageTags>
+    <PackageTags>Assert, Assertion, Equal, Equals, Diff, Compare, Verify, Verification, Approval, Example, Specification, Object</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>NuGet\DiffAssertions.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.0-alfa</Version>
+    <Version>2.0.0</Version>
     <AssemblyName>TestHelpers.DiffAssertions</AssemblyName>
     <RootNamespace>TestHelpers.DiffAssertions</RootNamespace>
     <RepositoryUrl>https://github.com/patrik-olausson/TestHelpers.DiffAssertions</RepositoryUrl>
